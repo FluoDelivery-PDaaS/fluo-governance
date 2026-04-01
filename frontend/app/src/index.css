@@ -1,0 +1,99 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 33% 98%;
+    --foreground: 220 20% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 20% 10%;
+    --primary: 210 75% 24%;       /* #1E3A5F navy */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 197 87% 37%;     /* #0891B2 teal */
+    --secondary-foreground: 0 0% 100%;
+    --accent: 197 87% 37%;
+    --accent-foreground: 0 0% 100%;
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 10% 50%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 197 87% 37%;
+    --radius: 0.5rem;
+
+    /* Status colors */
+    --status-on-track: 142 71% 45%;
+    --status-at-risk: 38 92% 50%;
+    --status-off-track: 0 84% 60%;
+    --status-completed: 220 13% 60%;
+  }
+
+  * {
+    @apply border-border;
+    box-sizing: border-box;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+}
+
+@layer components {
+  .sidebar {
+    @apply fixed left-0 top-0 h-full w-64 bg-[#1E3A5F] text-white flex flex-col z-40;
+  }
+
+  .sidebar-item {
+    @apply flex items-center gap-3 px-4 py-3 text-sm font-medium text-white/70 hover:text-white hover:bg-white/10 rounded-lg mx-2 transition-colors cursor-pointer;
+  }
+
+  .sidebar-item.active {
+    @apply text-white bg-white/15;
+  }
+
+  .status-badge {
+    @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold;
+  }
+
+  .status-on-track { @apply bg-green-100 text-green-700; }
+  .status-at-risk { @apply bg-amber-100 text-amber-700; }
+  .status-off-track { @apply bg-red-100 text-red-700; }
+  .status-completed { @apply bg-gray-100 text-gray-600; }
+  .status-not-started { @apply bg-slate-100 text-slate-600; }
+  .status-blocked { @apply bg-red-100 text-red-700; }
+  .status-delayed { @apply bg-orange-100 text-orange-700; }
+
+  .card {
+    @apply bg-white rounded-xl border border-border shadow-sm p-6;
+  }
+
+  .metric-card {
+    @apply bg-white rounded-xl border border-border p-5 flex flex-col gap-2;
+  }
+
+  .btn-primary {
+    @apply bg-[#0891B2] hover:bg-[#0e7490] text-white font-semibold px-4 py-2 rounded-lg transition-colors text-sm;
+  }
+
+  .btn-secondary {
+    @apply bg-white hover:bg-gray-50 text-gray-700 font-medium px-4 py-2 rounded-lg border border-border transition-colors text-sm;
+  }
+
+  .input {
+    @apply w-full px-3 py-2 rounded-lg border border-border bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#0891B2] focus:border-transparent transition-all;
+  }
+
+  .label {
+    @apply text-sm font-medium text-gray-700 mb-1 block;
+  }
+}

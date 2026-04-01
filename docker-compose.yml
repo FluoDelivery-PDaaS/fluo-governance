@@ -1,0 +1,85 @@
+version: "3.9"
+
+services:
+  # ─── PostgreSQL ───────────────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: fluo_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: fluo_governance
+      POSTGRES_USER: fluo
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-fluopassword}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fluo -d fluo_governance"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ─── Backend API ──────────────────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: fluo_backend
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://fluo:${DB_PASSWORD:-fluopassword}@postgres:5432/fluo_governance
+      JWT_SECRET: ${JWT_SECRET:-change_this_in_production_min_32_chars}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-24h}
+      REFRESH_TOKEN_EXPIRES_IN: ${REFRESH_TOKEN_EXPIRES_IN:-7d}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4o}
+      RESEND_API_KEY: ${RESEND_API_KEY}
+      EMAIL_FROM: ${EMAIL_FROM:-Fluo Governance <noreply@fluodelivery.com>}
+      APP_URL: ${APP_URL:-http://localhost:5174}
+      LANDING_URL: ${LANDING_URL:-http://localhost:5173}
+      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:5173,http://localhost:5174}
+      NODE_ENV: ${NODE_ENV:-development}
+      PORT: 3001
+    ports:
+      - "3001:3001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+
+  # ─── Frontend Landing ─────────────────────────────────────────
+  landing:
+    build:
+      context: ./frontend/landing
+      dockerfile: Dockerfile
+    container_name: fluo_landing
+    restart: unless-stopped
+    environment:
+      VITE_API_URL: ${VITE_API_URL:-http://localhost:3001}
+      VITE_APP_URL: ${VITE_APP_URL:-http://localhost:5174}
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+
+  # ─── Frontend App ─────────────────────────────────────────────
+  app:
+    build:
+      context: ./frontend/app
+      dockerfile: Dockerfile
+    container_name: fluo_app
+    restart: unless-stopped
+    environment:
+      VITE_API_URL: ${VITE_API_URL:-http://localhost:3001}
+      VITE_APP_NAME: ${VITE_APP_NAME:-Fluo Governance}
+    ports:
+      - "5174:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
+    driver: local

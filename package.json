@@ -1,0 +1,25 @@
+{
+  "name": "fluo-governance",
+  "version": "1.0.0",
+  "description": "Fluo Governance — Project Governance SaaS with AI-native reporting",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "frontend/landing",
+    "frontend/app"
+  ],
+  "scripts": {
+    "dev": "concurrently \"pnpm --filter backend dev\" \"pnpm --filter landing dev\" \"pnpm --filter app dev\"",
+    "dev:backend": "pnpm --filter backend dev",
+    "dev:landing": "pnpm --filter landing dev",
+    "dev:app": "pnpm --filter app dev",
+    "build": "pnpm --filter backend build && pnpm --filter landing build && pnpm --filter app build",
+    "db:push": "pnpm --filter backend db:push",
+    "db:migrate": "pnpm --filter backend db:migrate",
+    "db:seed": "pnpm --filter backend db:seed",
+    "test": "pnpm --filter backend test"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
