@@ -98,9 +98,9 @@ export default function LoginPage() {
           <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-100">
             <p className="text-xs font-semibold text-blue-700 mb-2">Credenciais de demonstração:</p>
             <div className="space-y-1 text-xs text-blue-600">
-              <p><span className="font-medium">PM:</span> pm@fluodelivery.com / Fluo@2025!</p>
-              <p><span className="font-medium">Stakeholder:</span> cliente@techcorp.com.br / Client@2025!</p>
-              <p><span className="font-medium">Resource:</span> dev@fluodelivery.com / Resource@2025!</p>
+              <p><span className="font-medium">PM:</span> pm@fluodelivery.com / Fluo@2025</p>
+              <p><span className="font-medium">Stakeholder:</span> stakeholder@techcorp.com / Fluo@2025</p>
+              <p><span className="font-medium">Resource:</span> dev1@techcorp.com / Fluo@2025</p>
             </div>
           </div>
         </div>

@@ -7,6 +7,7 @@ import PMDashboard from "./pages/pm/PMDashboard";
 import ProjectDetail from "./pages/pm/ProjectDetail";
 import TasksPage from "./pages/pm/TasksPage";
 import ReportsPage from "./pages/pm/ReportsPage";
+import PMReportsAllPage from "./pages/pm/PMReportsAllPage";
 import ReportDetail from "./pages/pm/ReportDetail";
 import StakeholderDashboard from "./pages/stakeholder/StakeholderDashboard";
 import StakeholderProject from "./pages/stakeholder/StakeholderProject";
@@ -61,6 +62,7 @@ export default function App() {
         <Route path="pm/projects/:id" element={<RoleRoute role="PROJECT_MANAGER"><ProjectDetail /></RoleRoute>} />
         <Route path="pm/projects/:id/tasks" element={<RoleRoute role="PROJECT_MANAGER"><TasksPage /></RoleRoute>} />
         <Route path="pm/projects/:id/reports" element={<RoleRoute role="PROJECT_MANAGER"><ReportsPage /></RoleRoute>} />
+        <Route path="pm/reports" element={<RoleRoute role="PROJECT_MANAGER"><PMReportsAllPage /></RoleRoute>} />
         <Route path="pm/reports/:id" element={<RoleRoute role="PROJECT_MANAGER"><ReportDetail /></RoleRoute>} />
 
         {/* Stakeholder Routes */}
