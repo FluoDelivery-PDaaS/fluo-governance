@@ -4,6 +4,12 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import rateLimit from "express-rate-limit";
+import path from "path";
+import { fileURLToPath } from "url";
+import fs from "fs";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 import { authRouter } from "./modules/auth/auth.router";
 import { projectsRouter } from "./modules/projects/projects.router";
@@ -65,10 +71,24 @@ app.use("/api/reports", reportsRouter);
 app.use("/api/notifications", notificationsRouter);
 app.use("/api/preferences", preferencesRouter);
 
-// ─── 404 Handler ─────────────────────────────────────────────
-app.use((_req, res) => {
-  res.status(404).json({ error: "Route not found" });
-});
+// ─── Serve Frontend Static Files (Production) ───────────────
+const frontendDistPath = path.join(__dirname, "../../frontend/app/dist");
+if (process.env.NODE_ENV === "production" && fs.existsSync(frontendDistPath)) {
+  app.use(express.static(frontendDistPath));
+  // SPA fallback - serve index.html for all non-API routes
+  app.get("*", (req, res) => {
+    if (!req.path.startsWith("/api")) {
+      res.sendFile(path.join(frontendDistPath, "index.html"));
+    } else {
+      res.status(404).json({ error: "Route not found" });
+    }
+  });
+} else {
+  // ─── 404 Handler ─────────────────────────────────────────────
+  app.use((_req, res) => {
+    res.status(404).json({ error: "Route not found" });
+  });
+}
 
 // ─── Error Handler ────────────────────────────────────────────
 app.use(errorHandler);
