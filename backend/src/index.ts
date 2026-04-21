@@ -5,11 +5,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 import rateLimit from "express-rate-limit";
 import path from "path";
-import { fileURLToPath } from "url";
 import fs from "fs";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 import { authRouter } from "./modules/auth/auth.router";
 import { projectsRouter } from "./modules/projects/projects.router";
