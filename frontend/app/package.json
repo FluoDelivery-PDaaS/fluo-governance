@@ -8,7 +8,8 @@
     "dev": "vite --port 5174",
     "build": "vite build",
     "preview": "vite preview --port 5174",
-    "lint": "eslint src --ext ts,tsx"
+    "lint": "eslint src --ext ts,tsx",
+    "start": "vite preview --port ${PORT:-4173} --host"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.0.4",
