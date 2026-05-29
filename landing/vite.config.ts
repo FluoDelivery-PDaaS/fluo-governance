@@ -8,6 +8,8 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "client", "src"),
+      // Alias next-themes to a stub to prevent build errors
+      "next-themes": path.resolve(import.meta.dirname, "client", "src", "lib", "next-themes-stub.ts"),
     },
   },
   root: path.resolve(import.meta.dirname, "client"),
