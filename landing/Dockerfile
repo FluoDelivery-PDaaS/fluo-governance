@@ -6,6 +6,9 @@ WORKDIR /app
 # Install pnpm
 RUN npm install -g pnpm@10
 
+# Cache bust argument - change this to force full rebuild
+ARG CACHEBUST=2
+
 # Copy package files and install dependencies
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
